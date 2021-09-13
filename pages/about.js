@@ -1,15 +1,16 @@
 import Link from 'next/link'
-import NavBar from "@/components/Navbar";
+const API_URL = `http://localhost:3001`
 
-function AboutPage() {
+function AboutPage({data}) {
     return (
         <>
-
-            <h1>I am in the About Page</h1>
+            <h1>In the about page</h1>
             <Link href="/"><a>Home</a></Link>
             <h4>(c) Copyright 2021</h4>
         </>
     )
 }
+
+
 
 export default AboutPage

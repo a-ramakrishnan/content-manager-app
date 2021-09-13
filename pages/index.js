@@ -1,24 +1,50 @@
-import Head from 'next/head'
-import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
-import Link from "next/link";
-
-import {useEffect, useState} from 'react'
-import {resources} from "../api/data";
 
 import ResourceList from "@/components/ResourceList";
 import ResourceHighlight from "@/components/ResourceHighlight";
 import Footer from "@/components/Footer";
 import Newsletter from "@/components/Newsletter";
 
+// const API_URL = `http://localhost:3000/api`
+const API_URL = `http://localhost:3001`
 
-export default function Home() {
+export default function Home({data}) {
+
+
   return (
     <>
-      <ResourceHighlight resources={resources.slice(0,2)}/>
+      <ResourceHighlight resources={data.slice(0,2)}/>
       <Newsletter/>
-      <ResourceList resources={resources.slice(2)}/>
+      <ResourceList resources={data.slice(2)}/>
       <Footer/>
     </>
   )
 }
+
+// export const getStaticProps = async () => {
+//     const data = await fetch(`${API_URL}/resources`, {
+//         method:'GET'
+//     })
+//     const resources = await data.json()
+//     return {
+//         props: {
+//             data: resources,
+//             revalidate: 5
+//         }
+//     }
+// }
+
+export const getServerSideProps = async () => {
+    const data = await fetch(`${API_URL}/api/resources`, {
+        method:'GET'
+    })
+    const resources = await data.json()
+
+    return {
+        props: {
+            data: resources
+        }
+    }
+}
+
+
