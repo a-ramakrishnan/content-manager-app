@@ -1,5 +1,8 @@
 import styles from '@/styles/new.module.css'
 import {useState} from 'react'
+import axios from 'axios'
+import {useRouter} from "next/router";
+
 
 const DEFAULT_DATA = {
     title: "",
@@ -12,9 +15,17 @@ const DEFAULT_DATA = {
 const ResourceCreate = () => {
 
     const [form, setForm] = useState(DEFAULT_DATA)
-
+    const router = useRouter()
     const handleSubmit = () => {
+
         console.log(form)
+        axios.post("/api/resources", form)
+            .then((res) => {
+                alert(res?.data);
+                setForm(DEFAULT_DATA);
+                router.push("/")
+            })
+            .catch((error) => alert(error?.response?.data))
     }
 
     const handleCancel = () => {
