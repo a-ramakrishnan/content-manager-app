@@ -1,3 +1,5 @@
+import Link from "next/link";
+import SingleResource from "./SingleResource";
 
 
 const ResourceList = ({resources}) => {
@@ -10,12 +12,8 @@ const ResourceList = ({resources}) => {
                             {
                                 resources.map((item) => {
                                     return(
-                                        <div key={item.key} className="column is-5 is-offset-1 ">
-                                            <div className="content is-medium">
-                                                <h2 className="subtitle is-5 has-text-grey">{item.createdAt}</h2>
-                                                <h1 className="title has-text-black is-3">{item.title}</h1>
-                                                <p className="has-text-dark">{item.description}</p>
-                                            </div>
+                                        <div key={item.id} className="column is-5 is-offset-1 ">
+                                            <SingleResource item={item}/>
                                         </div>
                                     )
                                 })}

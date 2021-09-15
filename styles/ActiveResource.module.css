@@ -1,0 +1,19 @@
+.activeResource {
+    background-color: royalblue;
+    padding: 50px;
+    text-align: center;
+    color: white;
+
+}
+
+.resourceName{
+    font-size: 24px;
+}
+
+.timeWrapper{}
+
+.elapsedTime{
+    font-size: 48px;
+    font-weight: bold;
+}
+
