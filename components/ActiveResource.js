@@ -16,6 +16,21 @@ const ActiveResource = () => {
   const [resource, setResource] = useState(DEFAULT_DATA);
   const [seconds, setSeconds] = useState();
 
+  const completeResource = () => {
+    alert("De-Activating Resource");
+    axios
+      .patch(`/api/resources`, {
+        ...resource,
+        status: "completed",
+        completed: true,
+      })
+      .then(() => {
+        alert("Completed. Redirecting...");
+        location.reload();
+      })
+      .catch((_) => alert("Cannot complete resource"));
+  };
+
   useEffect(() => {
     async function fetchActiveResource() {
       const resp = await axios.get("/api/activeresource");
@@ -52,17 +67,35 @@ const ActiveResource = () => {
     return () => clearInterval(interval);
   }, [seconds]);
 
+  const hasResource = resource && resource.id;
   return (
     <div className={styles.activeResource}>
       <h1 className={styles.resourceName}>
-        {resource.title ? resource.title : "Loading Resource.."}
+        {hasResource ? resource.title : "No Active Resource"}
       </h1>
       <div className={styles.timeWrapper}>
-        <h2 className={styles.elapsedTime}>{seconds ? seconds : "0"} secs </h2>
+        {hasResource &&
+          (seconds > 0 ? (
+            <h2 className={styles.elapsedTime}>{seconds}</h2>
+          ) : (
+            <h2 className={styles.elapsedTime}>
+              <button onClick={completeResource} className="button is-success">
+                Click and Complete!
+              </button>
+            </h2>
+          ))}
       </div>
-      <Link href={`/resources/${resource.id}`}>
-        <a className="button">Go to Resource</a>
-      </Link>
+      <div className={styles.buttons}>
+        {hasResource ? (
+          <Link href={`/resources/${resource.id}`}>
+            <a className="button">Go to Resource</a>
+          </Link>
+        ) : (
+          <Link href={`/`}>
+            <a className="button">All Resources</a>
+          </Link>
+        )}
+      </div>
     </div>
   );
 };

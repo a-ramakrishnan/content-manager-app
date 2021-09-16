@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
+import moment from "moment";
 
 const ResourceDetails = ({ resource }) => {
   const router = useRouter();
@@ -11,7 +12,7 @@ const ResourceDetails = ({ resource }) => {
   // }
 
   const activateResource = () => {
-    alert("Activating Resource");
+    //alert("Activating Resource");
     axios
       .patch(`/api/resources`, {
         ...resource,
@@ -19,14 +20,15 @@ const ResourceDetails = ({ resource }) => {
         activate: true,
       })
       .then(() => {
-        alert("Resource activated. Redirecting...");
-        router.reload(`/`);
+        console.log("Successfully changed on server. Reloading...");
+        //alert("Resource activated. Redirecting...");
+        router.reload();
       })
       .catch((_) => alert("Cannot activate resource"));
   };
 
   const deActivateResource = () => {
-    alert("De-Activating Resource");
+    //alert("De-Activating Resource");
     axios
       .patch(`/api/resources`, {
         ...resource,
@@ -49,14 +51,25 @@ const ResourceDetails = ({ resource }) => {
               <div className="column is-8 is-offset-2">
                 <div className="content is-medium">
                   {/*<p>Page ID is {resource.id}</p>*/}
-                  <h2 className="subtitle is-4">{resource.createdAt}</h2>
+                  <h2 className="subtitle is-4">
+                    {moment(resource.createdAt).format("LLL")}
+                    <span
+                      className={`tag is-large ml-4 resource-${resource.status}`}
+                    >
+                      {resource.status}
+                    </span>
+                  </h2>
                   <h1 className="title">{resource.title}</h1>
                   <p>{resource.description}</p>
                   <p>Time to Finish: {resource.timeToFinish} (mins)</p>
-                  <p>Status: {resource.status}</p>
+
                   <div className="field is-grouped mr-2">
                     <div className="control">
-                      {resource.status === "inactive" ? (
+                      {resource.status === "completed" ? (
+                        <button type="button" className="button is-success">
+                          Completed
+                        </button>
+                      ) : resource.status === "inactive" ? (
                         <button
                           type="button"
                           onClick={activateResource}
@@ -98,12 +111,9 @@ const ResourceDetails = ({ resource }) => {
 };
 
 export async function getServerSideProps({ params }) {
-  const resData = await fetch(
-    `http://localhost:3001/api/resources/${params.id}`,
-    {
-      method: "GET",
-    }
-  );
+  const resData = await fetch(`${process.env.SEV_URL}/resources/${params.id}`, {
+    method: "GET",
+  });
   const data = await resData.json();
   console.log(resData);
 
@@ -115,7 +125,7 @@ export async function getServerSideProps({ params }) {
 }
 //
 // export async function getStaticProps({params}) {
-//     const resData = await fetch(`http://localhost:3001/api/resources/${params.id}`, {
+//     const resData = await fetch(`${process.env.SEV_URL}/api/resources/${params.id}`, {
 //         method: "GET"
 //     })
 //     const data = await resData.json()
@@ -130,7 +140,7 @@ export async function getServerSideProps({ params }) {
 // }
 //
 // export async function getStaticPaths() {
-//     const resData = await fetch(`http://localhost:3001/api/resources`)
+//     const resData = await fetch(`${process.env.SEV_URL}/resources`)
 //     const data = await resData.json()
 //     const paths = data.map((item) => {
 //         return {
@@ -144,7 +154,7 @@ export async function getServerSideProps({ params }) {
 // }
 
 // ResourceDetails.getInitialProps = async ({query}) => {
-//         const resData = await fetch(`http://localhost:3001/api/resources/${query.id}`, {
+//         const resData = await fetch(`${process.env.SEV_URL}/resources/${query.id}`, {
 //         method: "GET"
 //     })
 //     const data = await resData.json()

@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 const ResourceEdit = ({ resource }) => {
   const router = useRouter();
   const handleEdit = (formData) => {
-    alert(JSON.stringify(formData));
+    //alert(JSON.stringify(formData));
     axios
       .patch("/api/resources", formData)
       .then(() => router.push(`/resources/${resource.id}`))
@@ -27,12 +27,9 @@ const ResourceEdit = ({ resource }) => {
 };
 
 export async function getServerSideProps({ params }) {
-  const resData = await fetch(
-    `http://localhost:3001/api/resources/${params.id}`,
-    {
-      method: "GET",
-    }
-  );
+  const resData = await fetch(`${process.env.SEV_URL}/resources/${params.id}`, {
+    method: "GET",
+  });
   const data = await resData.json();
   console.log(resData);
 

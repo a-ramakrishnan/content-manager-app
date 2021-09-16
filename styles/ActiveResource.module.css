@@ -3,17 +3,30 @@
     padding: 50px;
     text-align: center;
     color: white;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 
 }
 
 .resourceName{
     font-size: 24px;
+    height: 24px
 }
 
-.timeWrapper{}
+.timeWrapper{
+    height: 50px
+
+}
 
 .elapsedTime{
     font-size: 48px;
     font-weight: bold;
+}
+
+.buttons {
+    display: inline-flex;
+    justify-content: center;
 }
 

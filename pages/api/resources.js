@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default async function resources(req, res) {
   if (req.method === "GET") {
-    const response = await fetch("http://localhost:3001/api/resources");
+    const response = await fetch(`${process.env.SEV_URL}/resources`);
     const data = response.json();
     return res.send(data);
   }
@@ -16,7 +16,7 @@ export default async function resources(req, res) {
 
     try {
       const resData = await axios.post(
-        "http://localhost:3001/api/resources",
+        `${process.env.SEV_URL}/resources`,
         req.body
       );
       return res.send(resData.data);
@@ -34,7 +34,7 @@ export default async function resources(req, res) {
 
     try {
       const resData = await axios.patch(
-        `http://localhost:3001/api/resources/${id}`,
+        `${process.env.SEV_URL}/resources/${id}`,
         req.body
       );
       return res.send(resData.data);

@@ -14,3 +14,27 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/*Not the best way to do this.*/
+.tag.resource-active {
+  padding: 0;
+  margin: 0;
+  background-color: whitesmoke;
+  color: #2d8bff;
+}
+
+.tag.resource-inactive {
+  padding: 0;
+  margin: 0;
+  background-color: whitesmoke;
+  color: orange;
+}
+
+.tag.resource-completed {
+  padding: 0;
+  margin: 0;
+  background-color: whitesmoke;
+  color: #2dde2d;
+}
+
+
